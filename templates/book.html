@@ -1,0 +1,116 @@
+{% extends 'layout/base.html' %}
+
+{% block style %}
+<style>
+    .star
+    {
+        color: yellow;
+        font-size: 28px;
+        text-align: center;
+        padding: 0;
+    }
+    #rate
+    {
+        color: black;
+        font-size:24px;
+    }
+    .wyor
+    {
+        font-size:24px;
+        font-weight: bold;
+        margin: 20px 0;
+    }
+</style>
+{% endblock %}
+
+{% block nav %}
+<li class="nav-item">
+    <a class="nav-link" style="color: white; background-color: dodgerblue;
+    border-radius: 14px;
+    font-weight: 700;">Hello {{ username }}</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <div class="row">
+        <div class="col-sm-4 offset-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header text-center">
+                    <strong>Book Details</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Title:</strong> {{ book.title }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>ISBN:</strong> {{ book.isbn }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Author:</strong> {{ book.author }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Year:</strong> {{ book.year }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+        <p class="text-center wyor">What others say about the Book</p>
+    <div class="row mt-3">
+        <div class="col-sm-8 offset-md-2">
+            {% if size != 0 %}
+            <ul class="list-group">
+                {%for i in range(0, size)%}
+                <div class="row">
+                    <div class="col-md">
+                        <li class="list-group-item">
+                            <strong>Name:</strong> {{reviews[i].user.name}}
+                        </li>
+
+                    </div>
+                    <div class="col-md">
+                        <li class="list-group-item star">
+                            <span id="rate">
+                                <strong>Rate:</strong>
+                            </span>
+                            {% for i in range(reviews[i].rate) %}
+                            ★
+                            {%endfor%}
+                        </li>
+                        <hr>
+                    </div>
+                    <div class="col-md">
+                        <li class="list-group-item">
+                            <strong>Review:</strong> {{reviews[i].comment}}
+                        </li>
+                    </div>
+                </div>
+                {%endfor%}
+
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <p class="text-center wyor">Write your own Review</p>
+    <div class="row mt-3">
+        <div class="col-sm-8 offset-md-2">
+            <form  method="post" action="/review/{{ book.id }}">
+                <div class="form-group">
+                    <label for="name">Rate</label>
+                    <input type="numer" placeholder="Rate..." class="form-control" name="rate" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="username">Comment</label>
+                    <input type="text" placeholder="Comment..." class="form-control" name="comment" id="username">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

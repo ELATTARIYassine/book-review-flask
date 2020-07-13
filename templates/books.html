@@ -1,0 +1,45 @@
+{% extends 'layout/base.html' %}
+
+{% block nav %}
+<li class="nav-item">
+    <a class="nav-link" style="color: white; background-color: dodgerblue;
+    border-radius: 14px;
+    font-weight: 700;">Hello {{ username }}</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Search for a Book</h2>
+    <div class="row">
+        <div class="col-sm-6 offset-md-3">
+            <form  method="post" action="/books">
+                <div class="form-group">
+                    <label for="username">Book Title</label>
+                    <input type="text" placeholder="Title..." class="form-control" name="name" id="username">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-sm-6 offset-md-3">
+            {% if isData %}
+                <ul class="list-group">
+                    {%for i in range(0, size)%}
+                        <li class="list-group-item">
+                            <a href="/book/{{data[i].id}}">
+                                {{data[i].title}}
+                            </a>
+                        </li>
+                    {%endfor%}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
